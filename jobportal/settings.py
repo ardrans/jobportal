@@ -84,7 +84,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jobportal_app',
+        'NAME': 'jobportal',
         'USER': 'root',
         'PASSWORD':'root',
         'HOST': 'localhost',
