@@ -4,6 +4,9 @@ from rest_framework.permissions import AllowAny
 from ..serializers import UsersSerializer
 from ..models import Users
 import hashlib
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.exceptions import AuthenticationFailed
 
 class Register(generics.CreateAPIView):
     serializer_class = UsersSerializer
@@ -24,3 +27,30 @@ class Register(generics.CreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class Login(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        try:
+            serializer = self.serializer_class(data=request.data, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({
+                "status": "success",
+                "message": "Access token generated successfully.",
+                "data": {
+                    "access_token": token.key,
+                    "expires_in": 3600,
+                }
+
+            })
+        except AuthenticationFailed as e:
+            error_message = "Invalid username or password."
+            print(f"Authentication failed: {str(e)}")
+            return Response({
+                "status": "error",
+                "message": error_message,
+            }, status=400)
