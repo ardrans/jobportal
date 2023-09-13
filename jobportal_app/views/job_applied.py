@@ -15,3 +15,13 @@ class AppliedJobs(generics.CreateAPIView):
             serializer.save(applicant=self.request.user)
         else:
             return Response({"detail": "You do not have permission to apply jobs."}, status=status.HTTP_403_FORBIDDEN)
+
+
+class ListAppliedJobs(generics.ListAPIView):
+    serializer_class = JobsAppliedSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return JobsApplied.objects.filter(user_id=user.id)
