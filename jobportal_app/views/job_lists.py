@@ -4,10 +4,11 @@ from ..models import JobsLists
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.shortcuts import redirect
+
 
 class AddJobs(generics.CreateAPIView):
     serializer_class = JobsListsSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -21,3 +22,4 @@ class ListJobs(generics.ListAPIView):
     serializer_class = JobsListsSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
