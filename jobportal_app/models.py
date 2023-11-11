@@ -21,6 +21,8 @@ class Users(AbstractUser):
 
     company_name = models.CharField(max_length=100, null=True, blank=True)
 
+    
+
 
 class JobsLists(models.Model):
     title = models.CharField(max_length=100)

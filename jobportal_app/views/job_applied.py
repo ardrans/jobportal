@@ -25,3 +25,4 @@ class ListAppliedJobs(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return JobsApplied.objects.filter(user_id=user.id)
+
