@@ -27,7 +27,7 @@ class Users(AbstractUser):
 class JobsLists(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=100, db_index=True)
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
